@@ -41,6 +41,7 @@ etapa concluída:
 | `v0.3-nivel1-parte-b` | Nível 1 Parte B: parecer via LLM, saída validada, comparação de prompts |
 | `v0.4-nivel1-parte-a-eda` | Nível 1 Parte A revisada: reordena limpeza → EDA(análise exploratória de dados), adiciona análise exploratória e gráficos |
 | `v0.5-nivel1-revisao` | Nível 1 revisado: gráfico de volume por cliente, print formatado do parecer, análise de tokens (prompt vs. resposta) refinada |
+| `v0.6-nivel1-completo` | Nível 1 completo: notebook, `ENTREGA.yaml`, `DECISOES.md` e `USO_DE_IA.md` preenchidos |
 
 `git tag -n` lista as tags com descrição; `git log --oneline --decorate` mostra
 onde cada uma cai no histórico.
