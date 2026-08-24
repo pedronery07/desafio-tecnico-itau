@@ -1,0 +1,4 @@
+pandas
+jupyter
+python-dotenv
+google-generativeai

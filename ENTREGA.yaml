@@ -1,0 +1,23 @@
+candidato: Pedro Nery Affonso Dos Santos
+modelo_usado: gemini-2.0-flash
+provedor: google-ai-studio
+horas_dedicadas: TODO (24/8 14h - ; 25/8 ...)
+
+nivel_1:
+  limpeza_dados:      {status: nao_feito, plano: "docs/DECISOES.md"}
+  regras_pandas:      {status: nao_feito, plano: "docs/DECISOES.md"}
+  validacao_regras:   {status: nao_feito, plano: "docs/DECISOES.md"}
+  saida_estruturada:  {status: nao_feito, plano: "docs/DECISOES.md"}
+  comparacao_prompts: {status: nao_feito, plano: "docs/DECISOES.md"}
+
+nivel_2:
+  regras_em_escala: {status: nao_feito, plano: "docs/DECISOES.md"}
+  ferramentas:      {status: nao_feito, plano: "docs/DECISOES.md"}
+  agente:           {status: nao_feito, plano: "docs/DECISOES.md"}
+  lote:             {status: nao_feito, plano: "docs/DECISOES.md"}
+  confronto:        {status: nao_feito, plano: "docs/DECISOES.md"}
+
+nivel_3:
+  trilha_escolhida: TODO # A / B / C
+  status: nao_feito
+  plano: "docs/DECISOES.md"
