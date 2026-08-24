@@ -3,3 +3,4 @@ jupyter
 python-dotenv
 google-genai
 pydantic
+matplotlib
