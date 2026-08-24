@@ -1,14 +1,14 @@
 candidato: Pedro Nery Affonso Dos Santos
-modelo_usado: gemini-2.0-flash
+modelo_usado: gemini-3.5-flash-lite
 provedor: google-ai-studio
 horas_dedicadas: TODO (24/8 14h - ; 25/8 ...)
 
 nivel_1:
-  limpeza_dados:      {status: nao_feito, plano: "docs/DECISOES.md"}
-  regras_pandas:      {status: nao_feito, plano: "docs/DECISOES.md"}
-  validacao_regras:   {status: nao_feito, plano: "docs/DECISOES.md"}
-  saida_estruturada:  {status: nao_feito, plano: "docs/DECISOES.md"}
-  comparacao_prompts: {status: nao_feito, plano: "docs/DECISOES.md"}
+  limpeza_dados:      {status: completo, onde: "nivel_1/nivel_1.ipynb, secao Limpeza dos dados"}
+  regras_pandas:      {status: completo, onde: "nivel_1/nivel_1.ipynb, secoes Regra 1 e Regra 2"}
+  validacao_regras:   {status: completo, onde: "nivel_1/nivel_1.ipynb, secao Validacao das regras"}
+  saida_estruturada:  {status: completo, onde: "nivel_1/nivel_1.ipynb, Parte B (pydantic + tratamento de resposta malformada)"}
+  comparacao_prompts: {status: completo, onde: "nivel_1/nivel_1.ipynb, Parte B (prompt v1 vs v2)"}
 
 nivel_2:
   regras_em_escala: {status: nao_feito, plano: "docs/DECISOES.md"}
