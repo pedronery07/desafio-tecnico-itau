@@ -28,3 +28,18 @@ Triagem de prevenção à lavagem de dinheiro combinando regras determinísticas
 ## Status
 
 Ver [`ENTREGA.yaml`](ENTREGA.yaml) para o que está completo, parcial ou não feito, e [`docs/DECISOES.md`](docs/DECISOES.md) para o raciocínio por trás das escolhas.
+
+## Versionamento
+
+Os marcos do desenvolvimento estão marcados com tags `vX.Y-descricao`, uma por
+etapa concluída:
+
+| Tag | Marco |
+|---|---|
+| `v0.1-estrutura` | Estrutura de pastas/arquivos conforme a seção 3 do enunciado |
+| `v0.2-nivel1-parte-a` | Nível 1 Parte A: limpeza, Regras 1/2, validação |
+| `v0.3-nivel1-parte-b` | Nível 1 Parte B: parecer via LLM, saída validada, comparação de prompts |
+| `v0.4-nivel1-parte-a-eda` | Nível 1 Parte A revisada: reordena limpeza → EDA(análise exploratória de dados), adiciona análise exploratória e gráficos |
+
+`git tag -n` lista as tags com descrição; `git log --oneline --decorate` mostra
+onde cada uma cai no histórico.
