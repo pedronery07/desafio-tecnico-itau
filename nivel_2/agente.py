@@ -42,7 +42,7 @@ load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 MODEL_NAME = os.environ.get("LLM_MODEL", "gemini-3.5-flash-lite")
 client_llm = genai.Client(api_key=os.environ["LLM_API_KEY"])
 
-PROMPT_VERSION = "v1"  # muda se o texto de montar_prompt_inicial mudar, pra invalidar o cache
+PROMPT_VERSION = "v2"  # muda se o texto de montar_prompt_inicial mudar, pra invalidar o cache
 CACHE_DIR = Path(__file__).resolve().parent.parent / "outputs" / "nivel_2" / "cache"
 
 FERRAMENTAS_DISPONIVEIS = {
@@ -79,14 +79,15 @@ O cliente {cliente_id} foi sinalizado pelas seguintes regras determinísticas: \
 
 Você tem ferramentas para consultar a base de operações desse cliente. NÃO \
 chame todas as ferramentas por padrão — decida quais são realmente \
-necessárias para investigar ESTE caso específico. Alguns exemplos de \
-raciocínio (não são regras fixas, use seu julgamento):
-- Se o cliente foi sinalizado por fracionamento, o histórico geral ajuda a \
-achar a data com mais operações, e depois vale olhar essa data em detalhe.
-- Se foi sinalizado só por valor atípico, o histórico geral (que já mostra \
-volume e contagem) pode ser suficiente, sem precisar do detalhe de um dia \
-específico.
-- Perfil de canal é útil quando a concentração ou diversidade de canais \
+necessárias para investigar ESTE caso específico. `historico_cliente` já \
+traz a evidência exata por trás de cada regra disparada: se foi \
+fracionamento, o campo `dias_fracionamento` diz a(s) data(s) exata(s) com a \
+soma e a quantidade de operações daquele dia — use essa data (não adivinhe) \
+se quiser aprofundar com `operacoes_do_dia`. Se foi valor atípico, o campo \
+`operacoes_atipicas` já traz qual(is) operação(ões) é(são) o valor atípico e \
+por qual múltiplo da mediana do cliente ela passa — um múltiplo de 5x é bem \
+diferente de um múltiplo de 15x, considere isso na sua avaliação de risco. \
+Perfil de canal é útil quando a concentração ou diversidade de canais \
 parecer relevante para a tipologia.
 
 Os cálculos (soma, mediana, contagem, comparação com limite) já foram feitos \
@@ -120,9 +121,12 @@ def _extrair_retry_delay(erro, padrao=5.0):
 
 
 def _generate_content_com_retry(model_name, contents, config, max_tentativas=5):
-    """Chama a API com retry/backoff para o erro 429 (limite de requisições
-    por minuto da camada gratuita) — sem isso, um lote de vários clientes
-    novos derruba no meio."""
+    """Chama a API com retry/backoff para dois tipos de erro transitório:
+    - 429 (ClientError): limite de requisições por minuto da camada
+      gratuita — usa o retryDelay que o próprio erro sugere.
+    - 503 (ServerError): modelo temporariamente sobrecarregado do lado do
+      provedor — não vem com retryDelay, usa backoff exponencial simples.
+    Sem isso, um lote de vários clientes novos derruba no meio."""
     for tentativa in range(1, max_tentativas + 1):
         try:
             return client_llm.models.generate_content(
@@ -132,7 +136,14 @@ def _generate_content_com_retry(model_name, contents, config, max_tentativas=5):
             if e.code != 429 or tentativa == max_tentativas:
                 raise
             espera = _extrair_retry_delay(e) + 1  # +1s de margem
-            print(f"  [rate limit] tentativa {tentativa}/{max_tentativas}, "
+            print(f"  [rate limit 429] tentativa {tentativa}/{max_tentativas}, "
+                  f"aguardando {espera:.1f}s...")
+            time.sleep(espera)
+        except errors.ServerError as e:
+            if e.code != 503 or tentativa == max_tentativas:
+                raise
+            espera = 5.0 * tentativa  # backoff simples: 5s, 10s, 15s...
+            print(f"  [servidor sobrecarregado 503] tentativa {tentativa}/{max_tentativas}, "
                   f"aguardando {espera:.1f}s...")
             time.sleep(espera)
 

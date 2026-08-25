@@ -7,7 +7,7 @@ seguem o padrão que o SDK do Gemini (google-genai) usa para gerar o schema de
 function calling automaticamente (ver agente.py).
 """
 
-from regras import processar
+from regras import detalhe_regras, processar
 
 _df = processar("dados_nivel_2.json")
 
@@ -15,8 +15,11 @@ _df = processar("dados_nivel_2.json")
 def historico_cliente(cliente_id: str) -> dict:
     """Resumo agregado de todas as operações de um cliente: quantidade de
     operações, volume total em BRL, período coberto, canais e tipos de
-    operação usados, contrapartes distintas, e se o cliente foi sinalizado
-    pelas regras determinísticas de fracionamento ou valor atípico.
+    operação usados, contrapartes distintas, e se/como o cliente foi
+    sinalizado pelas regras determinísticas — incluindo, quando aplicável, a
+    data exata do fracionamento (com soma e quantidade de operações daquele
+    dia) e qual(is) operação(ões) é(são) o valor atípico, com o múltiplo da
+    mediana do cliente que ela representa.
 
     Args:
         cliente_id: identificador do cliente, no formato "CLI-014".
@@ -26,6 +29,7 @@ def historico_cliente(cliente_id: str) -> dict:
         return {"erro": f"cliente {cliente_id} nao encontrado na base"}
 
     ops_com_data = ops[~ops["data_ausente"]]
+    detalhe = detalhe_regras(_df, cliente_id)
     return {
         "cliente_id": cliente_id,
         "quantidade_operacoes": int(len(ops)),
@@ -36,7 +40,9 @@ def historico_cliente(cliente_id: str) -> dict:
         "tipos_operacao": ops["tipo"].value_counts().to_dict(),
         "contrapartes_distintas": sorted(ops["contraparte"].unique().tolist()),
         "sinalizado_regra_fracionamento": bool(ops["flag_fracionamento"].any()),
+        "dias_fracionamento": detalhe["dias_fracionamento"],
         "sinalizado_regra_valor_atipico": bool(ops["flag_valor_atipico"].any()),
+        "operacoes_atipicas": detalhe["operacoes_atipicas"],
     }
 
 

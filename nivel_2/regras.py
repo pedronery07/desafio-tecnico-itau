@@ -130,6 +130,54 @@ def ranking_clientes_sinalizados(df_clean, top_n=10):
     return sinalizacoes.head(top_n)
 
 
+def detalhe_regras(df_clean, cliente_id):
+    """Evidência específica por trás de cada regra disparada para um cliente
+    — não só o booleano `flag_*`, mas a data/soma exata do fracionamento e
+    qual(is) operação(ões) é(são) o valor atípico e por qual múltiplo da
+    mediana. Usado por tools.py para dar ao agente (function calling) a
+    mesma evidência que a regra determinística usou — sem isso, o agente não
+    tem como saber qual data investigar em `operacoes_do_dia`, nem o quanto
+    uma operação atípica realmente destoa do resto do histórico do cliente.
+    """
+    ops_cliente = df_clean[df_clean["cliente_id"] == cliente_id]
+
+    dias_fracionamento = (
+        ops_cliente[ops_cliente["flag_fracionamento"]]
+        .groupby("data")["valor_brl"]
+        .agg(qtd_operacoes="count", soma_valor_brl="sum")
+        .reset_index()
+    )
+
+    mediana_cliente = ops_cliente["valor_brl"].median()
+    operacoes_atipicas = ops_cliente[ops_cliente["flag_valor_atipico"]][
+        ["id", "data", "valor_brl"]
+    ].copy()
+    if not operacoes_atipicas.empty:
+        operacoes_atipicas["multiplo_da_mediana"] = (
+            operacoes_atipicas["valor_brl"] / mediana_cliente
+        ).round(1)
+
+    return {
+        "dias_fracionamento": [
+            {
+                "data": row["data"],
+                "qtd_operacoes": int(row["qtd_operacoes"]),
+                "soma_valor_brl": round(float(row["soma_valor_brl"]), 2),
+            }
+            for _, row in dias_fracionamento.iterrows()
+        ],
+        "operacoes_atipicas": [
+            {
+                "id": row["id"],
+                "data": row["data"],
+                "valor_brl": round(float(row["valor_brl"]), 2),
+                "multiplo_da_mediana": float(row["multiplo_da_mediana"]),
+            }
+            for _, row in operacoes_atipicas.iterrows()
+        ],
+    }
+
+
 def regras_disparadas(df_clean, cliente_id):
     """Lista os nomes das regras determinísticas que dispararam para um
     cliente (['fracionamento', 'valor_atipico'], subconjunto, ou vazia).
