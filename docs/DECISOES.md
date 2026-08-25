@@ -50,7 +50,16 @@
 - **Retry com backoff para o erro 429 (rate limit) em vez de deixar o lote
   quebrar.** Na primeira execução da Parte C em lote, o 4º cliente estourou o
   limite de 15 req/min do `gemini-3.5-flash-lite` e o script parou no meio. Adicionei retry em `agente.py` que lê o `retryDelay` sugerido pelo próprio erro da API e tenta de novo, em vez de simplesmente espaçar as chamadas com um `sleep` fixo — mais preciso e não desperdiça
-  tempo esperando mais do que o necessário.
+  tempo esperando mais do que o necessário. Mais tarde também apareceu erro
+  503 (servidor sobrecarregado) e o retry foi ampliado.
+- **`historico_cliente` expõe a evidência exata de cada regra, não só o
+  booleano.**: o agente não tinha como
+  saber *qual* data investigar em `operacoes_do_dia` para fracionamento, nem
+  *quanto* uma operação atípica destoava da mediana — só via
+  `sinalizado_regra_*: true/false`. Adicionei `dias_fracionamento` (data,
+  quantidade, soma) e `operacoes_atipicas` (id, valor, múltiplo da mediana) a
+  `historico_cliente`, calculados por uma nova função `regras.detalhe_regras`.
+  Contra: manter o agente "cego" e aceitar que ele investigasse às cegas.
 
 ## Limitações
 
@@ -83,10 +92,57 @@
   cliente com mais operações tem naturalmente mais chances de ter alguma
   flagada.
 - **O agente consome bem mais token que a chamada única do Nível 1** No Nível 1, uma única chamada com contexto pré-empacotado ficou em ~950–1050 tokens. No agente, cada rodada do loop de function calling reenvia a conversa inteira acumulada (prompt inicial + declaração das 3 ferramentas + toda chamada/resposta anterior). No teste com `CLI-029` (2 rodadas: `historico_cliente` → `operacoes_do_dia` → resposta final), o total chegou a 3629 tokens; com `CLI-014` (1 rodada só), 2053. Quanto mais ferramentas o agente decide chamar, mais caro fica. O cache em disco (ver Trade-offs) evita pagar esse custo de novo ao reprocessar o mesmo cliente, mas não reduz o custo de uma chamada nova.
-- **Possível indício de que a Regra 2 (valor atípico) sinaliza demais.** Na
-  execução em lote da Parte C, os 7 clientes sinalizados *só* pela Regra 2
-  foram *todos* classificados pelo agente como risco baixo. 
-  Não é conclusivo por si só (o agente pode estar errado, ou os dois podem ter razão em contextos diferentes), mas é um padrão forte o bastante para investigar a fundo. Mais detalhes virão na parte D.
+- **Ferramentas subinformadas geram divergência artificial, não julgamento
+  melhor.** Na primeira rodada da Parte C, `historico_cliente` só expunha um
+  booleano (`sinalizado_regra_*`) — sem a data exata do fracionamento nem o
+  quanto uma operação atípica destoava da mediana. Resultado: taxa de
+  concordância de só 30% com o critério da Parte D, e investigação incorreta
+  do `CLI-003` (o agente chamou `operacoes_do_dia` na *primeira* data do
+  histórico do cliente, não na data que de fato disparou a regra — porque
+  não tinha essa informação). Corrigido expondo a evidência exata (ver
+  Trade-offs); depois da correção, a concordância subiu para 80% e as
+  divergências restantes passaram a ser bem fundamentadas, não sintomas de
+  falta de dado. Moral: um agente só é tão bom quanto a informação que as
+  ferramentas dão a ele — "o agente discordou" não significa "o agente tem
+  razão" se ele estava trabalhando com informação incompleta ou errada.
+
+#### Dicussão sobre a Parte D
+
+- Critério de correspondência usado (`nivel_2/confronto.py`): 2 regras
+disparadas → `alto`, 1 regra → `médio`, 0 regras → `baixo` (justificado no
+próprio arquivo — tratar qualquer sinalização isolada como "alto" ignoraria
+que cada regra, sozinha, é propositalmente simples).
+
+- Depois de corrigir a evidência exposta ao agente (ver Trade-offs/Limitações
+acima), a taxa de concordância ficou em **80% (8/10)**. As 2 divergências que
+sobraram são bem fundamentadas:
+
+- **`CLI-023` (regra: médio, agente: alto) — acho que o agente está certo.**
+  A regra só enxerga "tem valor atípico: sim/não" — mas as duas operações
+  atípicas desse cliente estão a 12,9x e 20,2x da mediana, muito além do
+  limiar mínimo de 5x. Nosso critério de correspondência trata qualquer
+  cliente com 1 regra disparada como "médio", sem distinguir um caso
+  borderline (5,1x a mediana) de um caso extremo (20x). Isso é uma
+  limitação do *critério de correspondência* que escolhi para a Parte D —
+  ele não captura magnitude, só a contagem de regras disparadas.
+- **`CLI-003` (regra: médio, agente: baixo) — acho que a regra está mais
+  perto de certa aqui, discordo parcialmente do agente.** A Regra 1
+  literalmente define estruturação/fracionamento: várias operações no mesmo
+  dia, somando acima de um limite, nenhuma isolada grande o bastante para
+  disparar reporte individual — e é exatamente esse padrão que existe no
+  histórico do `CLI-003` (4 operações em 02/05/2026, R\$ 50.846,72, nenhuma
+  ≥ R\$ 20.000). A justificativa do agente para rebaixar ("canais e
+  contrapartes distintos, sem evidência de evasão de limites") é uma
+  interpretação razoável, mas dispersão de canal/contraparte não é
+  necessariamente exculpatória em lavagem de dinheiro — pode ser tanto atividade legítima
+  quanto uma forma de dificultar a detecção. Faria sentido manter esse cliente pelo
+  menos em "médio" para revisão humana, em vez de baixar para "baixo".
+
+**Conclusão prática:** Em nenhum dos dois casos o agente estava simplesmente "errado"
+— mas também não é verdade que o agente sempre acerta mais que a regra. O
+valor real do agente aqui foi trazer a magnitude e o contexto (canais,
+contrapartes) que a regra binária não expõe — mesmo quando a conclusão final
+dele não prevalece.
 
 ## O que faria com mais tempo
 

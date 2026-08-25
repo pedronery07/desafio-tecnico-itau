@@ -46,6 +46,9 @@ etapa concluída:
 | `v0.6-nivel1-completo` | Nível 1 completo: notebook, `ENTREGA.yaml`, `DECISOES.md` e `USO_DE_IA.md` preenchidos |
 | `v0.7-nivel2-parte-a` | Nível 2 Parte A: `regras.py` reutilizável, `parte_a.py`, top 10 sinalizados e EDA em `outputs/nivel_2/` |
 | `v0.8-nivel2-parte-b` | Nível 2 Parte B: `tools.py` (3 ferramentas), `agente.py` (function calling, decide quais ferramentas chamar) e cache em disco por cliente |
+| `v0.9-nivel2-parte-c` | Nível 2 Parte C: execução em lote sobre os 10 clientes, retry com backoff para rate limit, resumo de custo/latência com pandas |
+| `v0.10-nivel2-parte-c-fix` | Nível 2 Parte C corrigida: `historico_cliente` passa a expor a evidência exata das regras (data do fracionamento, múltiplo da mediana), retry ampliado para 429+503 |
+| `v0.11-nivel2-parte-d` | Nível 2 Parte D: `confronto.py`, critério de correspondência regra→risco, 80% de concordância e análise das divergências em `docs/DECISOES.md` |
 
 `git tag -n` lista as tags com descrição; `git log --oneline --decorate` mostra
 onde cada uma cai no histórico.

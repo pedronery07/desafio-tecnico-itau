@@ -15,7 +15,7 @@ nivel_2:
   ferramentas:      {status: completo, onde: "nivel_2/tools.py (historico_cliente, operacoes_do_dia, perfil_canal)"}
   agente:           {status: completo, onde: "nivel_2/agente.py (function calling nativo google-genai, loop manual)"}
   lote:             {status: completo, onde: "nivel_2/parte_c.py; registros em outputs/nivel_2/lote/, resumo em outputs/nivel_2/lote_resumo.csv"}
-  confronto:        {status: nao_feito, plano: "docs/DECISOES.md"}
+  confronto:        {status: completo, onde: "nivel_2/confronto.py; outputs/nivel_2/confronto.csv; analise em docs/DECISOES.md"}
 
 nivel_3:
   trilha_escolhida: TODO # A / B / C

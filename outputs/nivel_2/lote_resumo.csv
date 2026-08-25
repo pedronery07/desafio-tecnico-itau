@@ -1,8 +1,8 @@
 cliente_id,regras_disparadas,nivel_risco_agente,valido,cache_hit,n_ferramentas_chamadas,tempo_resposta_s,tokens_total
-CLI-029,fracionamento,médio,True,True,2,55.33,4078
+CLI-029,fracionamento,médio,True,False,2,212.73,4090
 CLI-017,fracionamento,médio,True,True,2,14.81,3998
 CLI-002,fracionamento,médio,True,True,2,3.75,4080
-CLI-003,fracionamento,baixo,True,False,2,298.32,4045
+CLI-003,fracionamento,baixo,True,True,2,298.32,4045
 CLI-014,valor_atipico,médio,True,True,1,2.54,2501
 CLI-023,valor_atipico,alto,True,True,1,2.33,2504
 CLI-028,valor_atipico,médio,True,True,1,2.38,2491
