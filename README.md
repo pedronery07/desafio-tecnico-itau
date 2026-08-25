@@ -45,6 +45,7 @@ etapa concluída:
 | `v0.5-nivel1-revisao` | Nível 1 revisado: gráfico de volume por cliente, print formatado do parecer, análise de tokens (prompt vs. resposta) refinada |
 | `v0.6-nivel1-completo` | Nível 1 completo: notebook, `ENTREGA.yaml`, `DECISOES.md` e `USO_DE_IA.md` preenchidos |
 | `v0.7-nivel2-parte-a` | Nível 2 Parte A: `regras.py` reutilizável, `parte_a.py`, top 10 sinalizados e EDA em `outputs/nivel_2/` |
+| `v0.8-nivel2-parte-b` | Nível 2 Parte B: `tools.py` (3 ferramentas), `agente.py` (function calling, decide quais ferramentas chamar) e cache em disco por cliente |
 
 `git tag -n` lista as tags com descrição; `git log --oneline --decorate` mostra
 onde cada uma cai no histórico.
