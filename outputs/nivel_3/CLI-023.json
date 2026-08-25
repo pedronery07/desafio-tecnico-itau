@@ -1,0 +1,53 @@
+{
+  "cliente_id": "CLI-023",
+  "regras_disparadas": [
+    "valor_atipico"
+  ],
+  "contexto_regras": {
+    "dias_fracionamento": [],
+    "operacoes_atipicas": [
+      {
+        "id": "OP-00219",
+        "data": "2026-04-28",
+        "valor_brl": 41768.17,
+        "multiplo_da_mediana": 12.9
+      },
+      {
+        "id": "OP-00317",
+        "data": "2026-05-01",
+        "valor_brl": 65417.17,
+        "multiplo_da_mediana": 20.2
+      }
+    ]
+  },
+  "segue": true,
+  "motivo_triagem": "O cliente apresentou múltiplas operações atípicas com valores expressivos, atingindo até 20.2 vezes a mediana, o que justifica uma investigação completa.",
+  "risco_preliminar": "alto",
+  "achados_investigacao": "O histórico do cliente CLI-023 revela um volume total movimentado de R$ 148.535,02 distribuído em 12 operações realizadas entre março e maio de 2026. A regra de valor atípico foi disparada devido a duas transações expressivas: a primeira em 28/04/2026 (OP-00219) no valor de R$ 41.768,17 (12,9 vezes a mediana) e a segunda em 01/05/2026 (OP-00317) no valor de R$ 65.417,17 (20,2 vezes a mediana). As operações envolveram 12 contrapartes distintas e múltiplos canais, sem indícios de fracionamento em um único dia.",
+  "ferramentas_chamadas": [
+    {
+      "ferramenta": "historico_cliente",
+      "args": {
+        "cliente_id": "CLI-023"
+      },
+      "erro": null
+    }
+  ],
+  "parecer_final": {
+    "nivel_risco": "alto",
+    "tipologia_suspeita": "Movimentação atípica incompatível com o padrão histórico",
+    "red_flags": [
+      "Operação expressiva de R$ 65.417,17 atingindo 20.2 vezes a mediana",
+      "Operação de R$ 41.768,17 equivalente a 12,9 vezes a mediana",
+      "Volume total movimentado de R$ 148.535,02 em 12 transações",
+      "Interação com 12 contrapartes distintas por múltiplos canais"
+    ],
+    "justificativa": "O cliente CLI-023 apresentou um volume movimentado de R$ 148.535,02 distribuído em 12 operações entre março e maio de 2026. A investigação confirmou transações expressivas em 28/04/2026 e 01/05/2026 que atingiram até 20.2 vezes a mediana da conta, envolvendo múltiplas contrapartes e canais sem justificativa econômica aparente. Esses fatores configuram risco elevado de lavagem de dinheiro, fundamentando a necessidade de reporte e monitoramento contínuo."
+  },
+  "tokens_total": 3230,
+  "etapas_executadas": [
+    "triador",
+    "investigador",
+    "redator"
+  ]
+}

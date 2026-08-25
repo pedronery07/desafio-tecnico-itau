@@ -61,6 +61,16 @@
   `historico_cliente`, calculados por uma nova função `regras.detalhe_regras`.
   Contra: manter o agente "cego" e aceitar que ele investigasse às cegas.
 
+### Nível 3
+
+- **Trilha A (multiagente), escolhida por interesse pessoal.** Tive contato
+  mais recente com esse tipo de arquitetura e queria praticar.
+- **Amostra de 4 clientes em vez de rodar nos 10 da Parte A.** Nível 3 é
+  bônus/opcional no enunciado — não exige lote completo. Foram escolhidos 4 casos
+  para cobrir os dois caminhos do fluxo: fracionamento borderline (`CLI-003`), valor atípico forte (`CLI-023`), valor atípico moderado com agravante de mesmo dia (`CLI-028`) e valor atípico isolado e fraco (`CLI-008`, fora do top10 — o candidato mais forte a ser arquivado
+  pelo Triador). Contra: rodar nos 10 clientes originais, que gastaria mais
+  tempo/tokens sem agregar muito à demonstração da arquitetura em si.
+
 ## Limitações
 
 ### Nível 1
@@ -144,6 +154,17 @@ valor real do agente aqui foi trazer a magnitude e o contexto (canais,
 contrapartes) que a regra binária não expõe — mesmo quando a conclusão final
 dele não prevalece.
 
+### Nível 3
+
+- **Triador decide com base num resumo, não nos dados brutos.** Ele vê
+  `contexto_regras`, mas não tem ferramentas — se o resumo omitir algo
+  relevante (ex.: um padrão que só aparece olhando outras datas do cliente),
+  o Triador pode arquivar um caso que merecia investigação.
+- **Sem cache nem re-execução idempotente como no Nível 2.** `multiagente.py`
+  não tem o cache em disco que `nivel_2/agente.py` tem — cada execução chama
+  a LLM de novo para todos os clientes da lista, mesmo que já tenham sido
+  processados.
+
 ## O que faria com mais tempo
 
 ### Nível 1
@@ -166,3 +187,14 @@ dele não prevalece.
   volume de operações. Validaria comparando o ranking normalizado com o
   atual e checando se a ordem dos primeiros colocados muda de forma
   defensável.
+
+### Nível 3
+
+- Rodar o fluxo multiagente nos 10 clientes da Parte A (não só na amostra de 4) 
+  e comparar o parecer da Trilha A com o parecer do agente simples do
+  Nível 2 lado a lado — validaria se o Triador realmente filtra casos que o
+  agente de uma etapa só investigaria à toa, e se o resultado final diverge
+  em algum caso.
+- Portar o cache em disco do Nível 2 para `multiagente.py` — validaria
+  rodando duas vezes e conferindo que a segunda não faz nenhuma chamada nova
+  à API para os mesmos clientes.

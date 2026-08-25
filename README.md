@@ -49,6 +49,7 @@ etapa concluída:
 | `v0.9-nivel2-parte-c` | Nível 2 Parte C: execução em lote sobre os 10 clientes, retry com backoff para rate limit, resumo de custo/latência com pandas |
 | `v0.10-nivel2-parte-c-fix` | Nível 2 Parte C corrigida: `historico_cliente` passa a expor a evidência exata das regras (data do fracionamento, múltiplo da mediana), retry ampliado para 429+503 |
 | `v0.11-nivel2-parte-d` | Nível 2 Parte D: `confronto.py`, critério de correspondência regra→risco, 80% de concordância e análise das divergências em `docs/DECISOES.md` |
+| `v0.12-nivel3-trilha-a` | Nível 3 Trilha A: fluxo multiagente (Triador/Investigador/Redator), estado compartilhado e condição de parada em `multiagente.py`, diagrama Mermaid em `docs/ARQUITETURA.md` |
 
 `git tag -n` lista as tags com descrição; `git log --oneline --decorate` mostra
 onde cada uma cai no histórico.

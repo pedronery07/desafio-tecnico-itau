@@ -1,0 +1,61 @@
+{
+  "cliente_id": "CLI-028",
+  "regras_disparadas": [
+    "valor_atipico"
+  ],
+  "contexto_regras": {
+    "dias_fracionamento": [],
+    "operacoes_atipicas": [
+      {
+        "id": "OP-00308",
+        "data": "2026-03-21",
+        "valor_brl": 27715.48,
+        "multiplo_da_mediana": 6.3
+      },
+      {
+        "id": "OP-00307",
+        "data": "2026-03-21",
+        "valor_brl": 24875.39,
+        "multiplo_da_mediana": 5.6
+      }
+    ]
+  },
+  "segue": true,
+  "motivo_triagem": "O cliente apresentou múltiplas operações atípicas no mesmo dia (21/03/2026), com valores expressivos que superam 5 a 6 vezes a sua mediana, indicando forte desvio do padrão comportamental.",
+  "risco_preliminar": "alto",
+  "achados_investigacao": "O cliente CLI-028 movimentou um volume total de R$ 88.750,80 em 12 operações realizadas entre 03/03/2026 e 23/05/2026, utilizando diversos canais e contrapartes. Em 21/03/2026, foram registradas duas operações atípicas via TED que se destacam acentuadamente em seu histórico. A primeira consistiu em uma transferência recebida no valor de R$ 24.875,39 (operação OP-00307), representando 5,6 vezes a mediana do cliente. Logo em seguida, ocorreu uma transferência enviada de R$ 27.715,48 (operação OP-00308) para a contraparte Delta Trading LTDA, atingindo 6,3 vezes a sua mediana. Juntas, essas duas transações somaram R$ 52.590,87 em um único dia, concentrando mais de 59% de todo o volume transacionado no período analisado.",
+  "ferramentas_chamadas": [
+    {
+      "ferramenta": "historico_cliente",
+      "args": {
+        "cliente_id": "CLI-028"
+      },
+      "erro": null
+    },
+    {
+      "ferramenta": "operacoes_do_dia",
+      "args": {
+        "cliente_id": "CLI-028",
+        "data": "2026-03-21"
+      },
+      "erro": null
+    }
+  ],
+  "parecer_final": {
+    "nivel_risco": "alto",
+    "tipologia_suspeita": "Movimentação atípica de alta materialidade em curto intervalo",
+    "red_flags": [
+      "Concentração de mais de 59% do volume transacionado no período em um único dia",
+      "Operação de recebimento via TED de R$ 24.875,39 (5,6 vezes a mediana)",
+      "Operação de envio via TED de R$ 27.715,48 para Delta Trading LTDA (6,3 vezes a mediana)",
+      "Forte desvio do padrão comportamental histórico do cliente"
+    ],
+    "justificativa": "O cliente CLI-028 apresentou forte desvio comportamental em 21/03/2026, realizando duas operações via TED que superaram de 5 a 6 vezes a sua mediana. Tais transações, totalizando R$ 52.590,87, concentraram mais de 59% do volume movimentado no período analisado e evidenciam risco elevado de lavagem de dinheiro, justificando o encaminhamento para os procedimentos cabíveis."
+  },
+  "tokens_total": 4789,
+  "etapas_executadas": [
+    "triador",
+    "investigador",
+    "redator"
+  ]
+}

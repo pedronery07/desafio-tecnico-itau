@@ -1,0 +1,53 @@
+{
+  "cliente_id": "CLI-003",
+  "regras_disparadas": [
+    "fracionamento"
+  ],
+  "contexto_regras": {
+    "dias_fracionamento": [
+      {
+        "data": "2026-05-02",
+        "qtd_operacoes": 4,
+        "soma_valor_brl": 50846.72
+      }
+    ],
+    "operacoes_atipicas": []
+  },
+  "segue": true,
+  "motivo_triagem": "Identificado fracionamento com 4 operações totalizando mais de 50 mil BRL em um único dia, indicando possível tentativa de burlar limites de reporte.",
+  "risco_preliminar": "médio",
+  "achados_investigacao": "O histórico do cliente CLI-003 entre 02/03/2026 e 28/05/2026 registra 14 operações totalizando R$ 102.241,09, com o uso de diversos canais como TED, PIX, espécie, cartão e boleto. No dia 02/05/2026, o cliente concentrou 4 operações que somaram R$ 50.846,72, disparando a regra de fracionamento. Nesse dia específico, as transações incluíram uma transferência enviada via PIX de R$ 18.631,47 para a Orion Importacao LTDA, um depósito via TED de R$ 14.562,44 com a Aurora Servicos SA, uma transferência recebida via cartão de R$ 1.509,47 da Boreal Varejo ME e um pagamento via TED de R$ 16.143,34 direcionado à Solar Atacado SA. O cliente não foi sinalizado pela regra de valor atípico e mantém relacionamento com 14 contrapartes distintas ao longo do período analisado.",
+  "ferramentas_chamadas": [
+    {
+      "ferramenta": "historico_cliente",
+      "args": {
+        "cliente_id": "CLI-003"
+      },
+      "erro": null
+    },
+    {
+      "ferramenta": "operacoes_do_dia",
+      "args": {
+        "cliente_id": "CLI-003",
+        "data": "2026-05-02"
+      },
+      "erro": null
+    }
+  ],
+  "parecer_final": {
+    "nivel_risco": "médio",
+    "tipologia_suspeita": "Fracionamento de operações (Smurfing)",
+    "red_flags": [
+      "Concentração de 4 operações totalizando R$ 50.846,72 em um único dia (02/05/2026)",
+      "Uso de múltiplos canais de pagamento (PIX, TED, cartão)",
+      "Relacionamento com 14 contrapartes distintas ao longo do período analisado"
+    ],
+    "justificativa": "O cliente CLI-003 apresentou padrão transacional condizente com fracionamento em 02/05/2026, atingindo o patamar de R$ 50.846,72 distribuídos em quatro operações com diferentes contrapartes e canais em um único dia. Embora o volume total no período (R$ 102.241,09 em 14 operações) e a dispersão com 14 contrapartes sugiram diversidade comercial, a concentração diária indica possível tentativa de burlar limites de reporte, justificando a manutenção do risco médio e o monitoramento contínuo."
+  },
+  "tokens_total": 4691,
+  "etapas_executadas": [
+    "triador",
+    "investigador",
+    "redator"
+  ]
+}

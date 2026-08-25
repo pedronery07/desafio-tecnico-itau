@@ -1,11 +1,11 @@
-# Nível 3 — Diferenciador (opcional)
+# Nível 3 — Trilha A: fluxo multiagente
 
-Escolha uma trilha e justifique a escolha em `docs/DECISOES.md`:
+Justificativa da escolha em `docs/DECISOES.md`.
 
-- **Trilha A — Fluxo multiagente.** Triador → Investigador → Redator, com estado
-  compartilhado e condição de parada. Diagrama Mermaid do fluxo em `docs/ARQUITETURA.md`.
-- **Trilha B — Servidor MCP local.** Exponha as ferramentas do Nível 2 via
-  servidor MCP (stdio); o agente consome por MCP, não por import direto.
-  Documente como conectar.
-- **Trilha C — Interface conversacional.** App (Streamlit/Gradio/Chainlit) com
-  memória de conversa sobre os clientes sinalizados. Commitar prints/GIF em `outputs/`.
+- **`multiagente.py`** — Triador → Investigador → Redator, com estado
+  compartilhado (`EstadoCaso`) e condição de parada (o Triador pode arquivar
+  o caso sem investigação completa). Reaproveita as ferramentas e as regras
+  do Nível 2. Rodar com `python nivel_3/multiagente.py`.
+- Diagrama Mermaid do fluxo: `docs/ARQUITETURA.md`.
+- Resultados salvos em `outputs/nivel_3/{cliente_id}.json` (um por cliente,
+  com o estado completo do fluxo, não só o parecer final).

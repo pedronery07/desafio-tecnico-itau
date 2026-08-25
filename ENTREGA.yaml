@@ -18,6 +18,6 @@ nivel_2:
   confronto:        {status: completo, onde: "nivel_2/confronto.py; outputs/nivel_2/confronto.csv; analise em docs/DECISOES.md"}
 
 nivel_3:
-  trilha_escolhida: TODO # A / B / C
-  status: nao_feito
-  plano: "docs/DECISOES.md"
+  trilha_escolhida: A
+  status: completo
+  onde: "nivel_3/multiagente.py (Triador/Investigador/Redator, estado compartilhado, condicao de parada); diagrama em docs/ARQUITETURA.md; resultados em outputs/nivel_3/"

@@ -1,0 +1,36 @@
+{
+  "cliente_id": "CLI-008",
+  "regras_disparadas": [
+    "valor_atipico"
+  ],
+  "contexto_regras": {
+    "dias_fracionamento": [],
+    "operacoes_atipicas": [
+      {
+        "id": "OP-00077",
+        "data": "2026-03-26",
+        "valor_brl": 18568.72,
+        "multiplo_da_mediana": 5.3
+      }
+    ]
+  },
+  "segue": false,
+  "motivo_triagem": "O caso apresenta apenas uma única operação atípica com múltiplo moderado (5.3x) e ausência de fracionamento ou outros agravantes, indicando sinal fraco próximo ao limiar mínimo.",
+  "risco_preliminar": "baixo",
+  "achados_investigacao": null,
+  "ferramentas_chamadas": [],
+  "parecer_final": {
+    "nivel_risco": "baixo",
+    "tipologia_suspeita": "Operação atípica isolada",
+    "red_flags": [
+      "Operação com valor atípico de múltiplo moderado (5.3x)",
+      "Ausência de fracionamento de valores"
+    ],
+    "justificativa": "O caso do cliente CLI-008 foi sinalizado exclusivamente pelo gatilho de valor atípico, apresentando um múltiplo moderado de 5.3x em uma única operação. Como não há evidências de fracionamento ou outros agravantes, o sinal de alerta é considerado fraco e próximo ao limiar mínimo. Diante da ausência de achados de investigação adicionais, o caso foi arquivado com risco preliminar baixo."
+  },
+  "tokens_total": 817,
+  "etapas_executadas": [
+    "triador",
+    "redator"
+  ]
+}
