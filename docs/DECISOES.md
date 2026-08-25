@@ -28,6 +28,26 @@
   dia, mas só um ultrapassa o limite de soma (R\$ 50.000). Contagem sozinha
   teria gerado falso positivo para `CLI-A-3`.
 
+### Nível 2
+
+- **Extrair a limpeza/regras do Nível 1 para `nivel_2/regras.py`.** No
+  Nível 1 essa lógica ficou inline no notebook, presa a nomes de variável
+  fixos e ao arquivo `dados_nivel_1.json`. Refatorei
+  em funções (`carregar_dados`, `limpar_e_normalizar`,
+  `aplicar_regra_fracionamento`, `aplicar_regra_valor_atipico`, `processar`). 
+  Contra: manter a lógica duplicada em cada arquivo.
+- **`n_sinalizacoes` conta por operação flagada, não por regra binária.** Um
+  cliente com 4 operações flagadas pela Regra 1 conta 4, não 1.
+- **Gráfico de distribuição condicional a existir USD na base.** `parte_a.py`
+  só desenha o histograma comparativo (com/sem USD) se houver ao menos uma
+  operação em USD; caso contrário, plota um único histograma. Decisão para o
+  script continuar funcionando corretamente mesmo numa base sem moeda mista.
+- **Cache em disco do resultado completo por cliente, não cache de contexto
+  do provedor.** `agente.py` salva o parecer + tokens + latência +
+  ferramentas chamadas em `outputs/nivel_2/cache/`, chaveado por
+  `cliente_id + regras_disparadas + modelo + versão do prompt`. Se o mesmo
+  cenário já foi processado, reaproveita em vez de chamar a LLM de novo.
+
 ## Limitações
 
 ### Nível 1
@@ -48,6 +68,18 @@
 - **Taxa de câmbio fixa do arquivo.** Não reflete variação cambial ao longo do
   tempo.
 
+### Nível 2
+
+- **`n_sinalizacoes` pode contar a mesma operação duas vezes.** Uma operação
+  flagada simultaneamente pela Regra 1 e pela Regra 2 soma 2 no contador do
+  cliente — não ocorreu na base atual, mas é um caso possível que pesaria
+  mais que dois clientes com uma operação cada flagada por uma regra
+  diferente. O critério é discutível e está documentado aqui por transparência.
+- **Ranking não normaliza por quantidade de operações do cliente.** Um
+  cliente com mais operações tem naturalmente mais chances de ter alguma
+  flagada.
+- **O agente consome bem mais token que a chamada única do Nível 1** No Nível 1, uma única chamada com contexto pré-empacotado ficou em ~950–1050 tokens. No agente, cada rodada do loop de function calling reenvia a conversa inteira acumulada (prompt inicial + declaração das 3 ferramentas + toda chamada/resposta anterior). No teste com `CLI-029` (2 rodadas: `historico_cliente` → `operacoes_do_dia` → resposta final), o total chegou a 3629 tokens; com `CLI-014` (1 rodada só), 2053. Quanto mais ferramentas o agente decide chamar, mais caro fica. O cache em disco (ver Trade-offs) evita pagar esse custo de novo ao reprocessar o mesmo cliente, mas não reduz o custo de uma chamada nova.
+
 ## O que faria com mais tempo
 
 ### Nível 1
@@ -62,3 +94,11 @@
 - Escrever testes automatizados (pytest) para as regras determinísticas, em
   vez de só a validação manual no notebook. Poderia ser interessante rodar 
   em CI (com GitHub Actions) a cada mudança no código das regras.
+
+### Nível 2
+
+- Normalizar `n_sinalizacoes` pela quantidade de operações do cliente (uma
+  "taxa de sinalização") para o ranking não favorecer só quem tem mais
+  volume de operações. Validaria comparando o ranking normalizado com o
+  atual e checando se a ordem dos primeiros colocados muda de forma
+  defensável.

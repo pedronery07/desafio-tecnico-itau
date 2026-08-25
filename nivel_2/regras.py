@@ -128,3 +128,18 @@ def ranking_clientes_sinalizados(df_clean, top_n=10):
     )
     sinalizacoes["volume_total_brl"] = sinalizacoes["volume_total_brl"].round(2)
     return sinalizacoes.head(top_n)
+
+
+def regras_disparadas(df_clean, cliente_id):
+    """Lista os nomes das regras determinísticas que dispararam para um
+    cliente (['fracionamento', 'valor_atipico'], subconjunto, ou vazia).
+    Reaproveitado pelo agente (contexto inicial) e pelo confronto.py
+    (Parte D).
+    """
+    ops = df_clean[df_clean["cliente_id"] == cliente_id]
+    disparadas = []
+    if ops["flag_fracionamento"].any():
+        disparadas.append("fracionamento")
+    if ops["flag_valor_atipico"].any():
+        disparadas.append("valor_atipico")
+    return disparadas

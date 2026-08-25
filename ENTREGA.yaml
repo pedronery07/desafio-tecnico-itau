@@ -1,7 +1,7 @@
 candidato: Pedro Nery Affonso Dos Santos
 modelo_usado: gemini-3.5-flash-lite
 provedor: google-ai-studio
-horas_dedicadas: TODO (24/8 14h - ; 25/8 ...)
+horas_dedicadas: TODO (24/8 14h - 18h30 e 22h - 23h30; 25/8 ...)
 
 nivel_1:
   limpeza_dados:      {status: completo, onde: "nivel_1/nivel_1.ipynb, secao Limpeza dos dados"}
@@ -11,9 +11,9 @@ nivel_1:
   comparacao_prompts: {status: completo, onde: "nivel_1/nivel_1.ipynb, Parte B (prompt v1 vs v2)"}
 
 nivel_2:
-  regras_em_escala: {status: nao_feito, plano: "docs/DECISOES.md"}
-  ferramentas:      {status: nao_feito, plano: "docs/DECISOES.md"}
-  agente:           {status: nao_feito, plano: "docs/DECISOES.md"}
+  regras_em_escala: {status: completo, onde: "nivel_2/regras.py, nivel_2/parte_a.py; top10 e EDA em outputs/nivel_2/"}
+  ferramentas:      {status: completo, onde: "nivel_2/tools.py (historico_cliente, operacoes_do_dia, perfil_canal)"}
+  agente:           {status: completo, onde: "nivel_2/agente.py (function calling nativo google-genai, loop manual)"}
   lote:             {status: nao_feito, plano: "docs/DECISOES.md"}
   confronto:        {status: nao_feito, plano: "docs/DECISOES.md"}
 
