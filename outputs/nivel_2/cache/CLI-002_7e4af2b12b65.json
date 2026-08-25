@@ -1,0 +1,47 @@
+{
+  "cliente_id": "CLI-002",
+  "regras_disparadas": [
+    "fracionamento"
+  ],
+  "tempo_resposta_s": 4.38,
+  "tokens_total": 4848,
+  "ferramentas_chamadas": [
+    {
+      "ferramenta": "historico_cliente",
+      "args": {
+        "cliente_id": "CLI-002"
+      },
+      "erro": null
+    },
+    {
+      "ferramenta": "operacoes_do_dia",
+      "args": {
+        "cliente_id": "CLI-002",
+        "data": "2026-05-20"
+      },
+      "erro": null
+    },
+    {
+      "ferramenta": "operacoes_do_dia",
+      "args": {
+        "cliente_id": "CLI-002",
+        "data": "2026-03-02"
+      },
+      "erro": null
+    }
+  ],
+  "texto_bruto": "{\"nivel_risco\": \"médio\", \"tipologia_suspeita\": \"Fracionamento de operações\", \"red_flags\": [\"Sinalização pela regra determinística de fracionamento\", \"Uso diversificado de canais e contrapartes para movimentação de recursos\", \"Volume total significativo pulverizado em diversas operações\"], \"justificativa\": \"O cliente CLI-nale foi sinalizado pela regra determinística de fracionamento, apresentando um volume total de 107.965,38 BRL distribuído em 14 operações. O histórico revela múltiplos canais utilizados, como pix, ted, boleto, cartão e espécie, envolvendo diversas contrapartes distintas. Essa configuração sugere um padrão atípico de fracionamento de valores, justificando a manutenção do monitoramento com risco médio.\"}",
+  "parecer": {
+    "nivel_risco": "médio",
+    "tipologia_suspeita": "Fracionamento de operações",
+    "red_flags": [
+      "Sinalização pela regra determinística de fracionamento",
+      "Uso diversificado de canais e contrapartes para movimentação de recursos",
+      "Volume total significativo pulverizado em diversas operações"
+    ],
+    "justificativa": "O cliente CLI-nale foi sinalizado pela regra determinística de fracionamento, apresentando um volume total de 107.965,38 BRL distribuído em 14 operações. O histórico revela múltiplos canais utilizados, como pix, ted, boleto, cartão e espécie, envolvendo diversas contrapartes distintas. Essa configuração sugere um padrão atípico de fracionamento de valores, justificando a manutenção do monitoramento com risco médio."
+  },
+  "valido": true,
+  "erro": null,
+  "cache_hit": false
+}

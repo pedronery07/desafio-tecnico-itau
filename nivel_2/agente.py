@@ -14,20 +14,25 @@ chamada real à API.
 Tem cache em disco por cliente (outputs/nivel_2/cache/): se o mesmo cliente
 já foi processado com as mesmas regras disparadas, o mesmo modelo e a mesma
 versão de prompt, reaproveita o resultado salvo em vez de chamar a LLM de
-novo — reduz consumo de tokens em reprocessamentos e ajuda a não estourar o
-limite de requisições por minuto da camada gratuita.
+novo — reduz consumo de tokens em reprocessamentos.
+
+Mesmo com cache, um lote de vários clientes novos pode estourar o limite de
+requisições por minuto da camada gratuita (15 req/min no gemini-3.5-flash-lite)
+— por isso as chamadas à API têm retry com backoff (respeitando o
+`retryDelay` que o próprio erro 429 devolve) em vez de derrubar o lote inteiro.
 """
 
 import hashlib
 import json as _json
 import os
+import re
 import time
 from pathlib import Path
 from typing import List, Literal
 
 from dotenv import load_dotenv
 from google import genai
-from google.genai import types
+from google.genai import errors, types
 from pydantic import BaseModel, ValidationError
 
 import tools
@@ -99,6 +104,39 @@ nenhum texto fora do JSON e sem markdown, no formato:
 """
 
 
+def _extrair_retry_delay(erro, padrao=5.0):
+    """Lê o retryDelay sugerido pelo erro 429 (ex.: '3.85s') — se não achar,
+    usa um valor padrão."""
+    try:
+        for violacao in erro.details.get("error", {}).get("details", []):
+            delay = violacao.get("retryDelay")
+            if delay:
+                match = re.match(r"([\d.]+)s?", delay)
+                if match:
+                    return float(match.group(1))
+    except (AttributeError, TypeError):
+        pass
+    return padrao
+
+
+def _generate_content_com_retry(model_name, contents, config, max_tentativas=5):
+    """Chama a API com retry/backoff para o erro 429 (limite de requisições
+    por minuto da camada gratuita) — sem isso, um lote de vários clientes
+    novos derruba no meio."""
+    for tentativa in range(1, max_tentativas + 1):
+        try:
+            return client_llm.models.generate_content(
+                model=model_name, contents=contents, config=config
+            )
+        except errors.ClientError as e:
+            if e.code != 429 or tentativa == max_tentativas:
+                raise
+            espera = _extrair_retry_delay(e) + 1  # +1s de margem
+            print(f"  [rate limit] tentativa {tentativa}/{max_tentativas}, "
+                  f"aguardando {espera:.1f}s...")
+            time.sleep(espera)
+
+
 def _cache_path(cliente_id, regras_disparadas, model_name):
     """Chave do cache = cliente + regras disparadas + modelo + versão do
     prompt. Muda qualquer um desses e o cache é invalidado naturalmente
@@ -145,9 +183,7 @@ def rodar_agente(
     inicio = time.time()
 
     for _ in range(max_iteracoes):
-        resposta = client_llm.models.generate_content(
-            model=model_name, contents=contents, config=config
-        )
+        resposta = _generate_content_com_retry(model_name, contents, config)
         if resposta.usage_metadata:
             tokens_total += resposta.usage_metadata.total_token_count or 0
 

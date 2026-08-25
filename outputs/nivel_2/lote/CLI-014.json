@@ -1,0 +1,29 @@
+{
+  "cliente_id": "CLI-014",
+  "regras_disparadas": [
+    "valor_atipico"
+  ],
+  "tempo_resposta_s": 4.32,
+  "tokens_total": 2054,
+  "ferramentas_chamadas": [
+    {
+      "ferramenta": "historico_cliente",
+      "args": {
+        "cliente_id": "CLI-014"
+      },
+      "erro": null
+    }
+  ],
+  "texto_bruto": "{\n  \"nivel_risco\": \"baixo\",\n  \"tipologia_suspeita\": \"Operação atípica isolada\",\n  \"red_flags\": [\n    \"Sinalização por valor atípico detectada pelas regras determinísticas\"\n  ],\n  \"justificativa\": \"O cliente CLI-014 apresentou apenas um alerta de valor atípico em seu histórico de 11 operações, totalizando R$ 80.629,99 distribuídos ao longo de quase três meses. A ausência de sinalização por fracionamento e a diversidade moderada de contrapartes e canais indicam que o evento atípico pode ser justificado pela atividade comercial regular, sem indícios evidentes de lavagem de dinheiro.\"\n}",
+  "parecer": {
+    "nivel_risco": "baixo",
+    "tipologia_suspeita": "Operação atípica isolada",
+    "red_flags": [
+      "Sinalização por valor atípico detectada pelas regras determinísticas"
+    ],
+    "justificativa": "O cliente CLI-014 apresentou apenas um alerta de valor atípico em seu histórico de 11 operações, totalizando R$ 80.629,99 distribuídos ao longo de quase três meses. A ausência de sinalização por fracionamento e a diversidade moderada de contrapartes e canais indicam que o evento atípico pode ser justificado pela atividade comercial regular, sem indícios evidentes de lavagem de dinheiro."
+  },
+  "valido": true,
+  "erro": null,
+  "cache_hit": false
+}

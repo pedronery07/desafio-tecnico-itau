@@ -1,0 +1,45 @@
+{
+  "cliente_id": "CLI-003",
+  "regras_disparadas": [
+    "fracionamento"
+  ],
+  "tempo_resposta_s": 4.0,
+  "tokens_total": 4779,
+  "ferramentas_chamadas": [
+    {
+      "ferramenta": "historico_cliente",
+      "args": {
+        "cliente_id": "CLI-003"
+      },
+      "erro": null
+    },
+    {
+      "ferramenta": "operacoes_do_dia",
+      "args": {
+        "cliente_id": "CLI-003",
+        "data": "2026-03-02"
+      },
+      "erro": null
+    },
+    {
+      "ferramenta": "perfil_canal",
+      "args": {
+        "cliente_id": "CLI-003"
+      },
+      "erro": null
+    }
+  ],
+  "texto_bruto": "{\"nivel_risco\": \"baixo\", \"tipologia_suspeita\": \"Fracionamento operacional\", \"red_flags\": [\"Sinalização pelo motor de regras por fracionamento\", \"Uso relevante de operações em espécie\"], \"justificativa\": \"O cliente CLI-003 foi sinalizado exclusivamente pela regra de fracionamento, apresentando um volume total de R$ 102.241,09 distribuído em 14 operações. A investigação detalhada não evidenciou concentração anômala de transações em um único dia que caracterize estruturação típica de lavagem de dinheiro. Desta forma, o risco é considerado baixo, sem indícios contundentes de ilicitude.\"}",
+  "parecer": {
+    "nivel_risco": "baixo",
+    "tipologia_suspeita": "Fracionamento operacional",
+    "red_flags": [
+      "Sinalização pelo motor de regras por fracionamento",
+      "Uso relevante de operações em espécie"
+    ],
+    "justificativa": "O cliente CLI-003 foi sinalizado exclusivamente pela regra de fracionamento, apresentando um volume total de R$ 102.241,09 distribuído em 14 operações. A investigação detalhada não evidenciou concentração anômala de transações em um único dia que caracterize estruturação típica de lavagem de dinheiro. Desta forma, o risco é considerado baixo, sem indícios contundentes de ilicitude."
+  },
+  "valido": true,
+  "erro": null,
+  "cache_hit": false
+}

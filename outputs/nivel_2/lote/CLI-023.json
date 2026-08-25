@@ -1,0 +1,29 @@
+{
+  "cliente_id": "CLI-023",
+  "regras_disparadas": [
+    "valor_atipico"
+  ],
+  "tempo_resposta_s": 1.85,
+  "tokens_total": 2053,
+  "ferramentas_chamadas": [
+    {
+      "ferramenta": "historico_cliente",
+      "args": {
+        "cliente_id": "CLI-023"
+      },
+      "erro": null
+    }
+  ],
+  "texto_bruto": "{\n  \"nivel_risco\": \"baixo\",\n  \"tipologia_suspeita\": \"Movimentação atípica isolada\",\n  \"red_flags\": [\n    \"Operação com valor atípico detectada no histórico\"\n  ],\n  \"justificativa\": \"O cliente CLI-023 apresentou um volume total moderado de R$ 148.535,02 distribuído em 12 operações ao longo de mais de dois meses. A sinalização ocorreu exclusivamente por valor atípico, sem indícios de fracionamento ou concentração suspeita de canais, indicando um evento pontual que não caracteriza padrão típico de lavagem de dinheiro.\"\n}",
+  "parecer": {
+    "nivel_risco": "baixo",
+    "tipologia_suspeita": "Movimentação atípica isolada",
+    "red_flags": [
+      "Operação com valor atípico detectada no histórico"
+    ],
+    "justificativa": "O cliente CLI-023 apresentou um volume total moderado de R$ 148.535,02 distribuído em 12 operações ao longo de mais de dois meses. A sinalização ocorreu exclusivamente por valor atípico, sem indícios de fracionamento ou concentração suspeita de canais, indicando um evento pontual que não caracteriza padrão típico de lavagem de dinheiro."
+  },
+  "valido": true,
+  "erro": null,
+  "cache_hit": true
+}

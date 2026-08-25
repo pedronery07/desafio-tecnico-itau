@@ -1,0 +1,29 @@
+{
+  "cliente_id": "CLI-028",
+  "regras_disparadas": [
+    "valor_atipico"
+  ],
+  "tempo_resposta_s": 1.78,
+  "tokens_total": 2062,
+  "ferramentas_chamadas": [
+    {
+      "ferramenta": "historico_cliente",
+      "args": {
+        "cliente_id": "CLI-028"
+      },
+      "erro": null
+    }
+  ],
+  "texto_bruto": "{\n  \"nivel_risco\": \"baixo\",\n  \"tipologia_suspeita\": \"Nenhuma tipologia conclusiva\",\n  \"red_flags\": [\n    \"Operação sinalizada por valor atípico em histórico de 12 transações\"\n  ],\n  \"justificativa\": \"O cliente CLI-028 realizou 12 operações totalizando R$ 88.750,80 entre março e maio de 2026, utilizando diversos canais e contrapartes legítimas. A única sinalização ocorreu devido a um valor atípico isolado, sem evidências de padrões recorrentes de fracionamento ou ocultação de fundos, configurando baixo risco de lavagem de dinheiro.\"\n}",
+  "parecer": {
+    "nivel_risco": "baixo",
+    "tipologia_suspeita": "Nenhuma tipologia conclusiva",
+    "red_flags": [
+      "Operação sinalizada por valor atípico em histórico de 12 transações"
+    ],
+    "justificativa": "O cliente CLI-028 realizou 12 operações totalizando R$ 88.750,80 entre março e maio de 2026, utilizando diversos canais e contrapartes legítimas. A única sinalização ocorreu devido a um valor atípico isolado, sem evidências de padrões recorrentes de fracionamento ou ocultação de fundos, configurando baixo risco de lavagem de dinheiro."
+  },
+  "valido": true,
+  "erro": null,
+  "cache_hit": false
+}

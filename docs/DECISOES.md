@@ -47,6 +47,10 @@
   ferramentas chamadas em `outputs/nivel_2/cache/`, chaveado por
   `cliente_id + regras_disparadas + modelo + versão do prompt`. Se o mesmo
   cenário já foi processado, reaproveita em vez de chamar a LLM de novo.
+- **Retry com backoff para o erro 429 (rate limit) em vez de deixar o lote
+  quebrar.** Na primeira execução da Parte C em lote, o 4º cliente estourou o
+  limite de 15 req/min do `gemini-3.5-flash-lite` e o script parou no meio. Adicionei retry em `agente.py` que lê o `retryDelay` sugerido pelo próprio erro da API e tenta de novo, em vez de simplesmente espaçar as chamadas com um `sleep` fixo — mais preciso e não desperdiça
+  tempo esperando mais do que o necessário.
 
 ## Limitações
 
@@ -79,6 +83,10 @@
   cliente com mais operações tem naturalmente mais chances de ter alguma
   flagada.
 - **O agente consome bem mais token que a chamada única do Nível 1** No Nível 1, uma única chamada com contexto pré-empacotado ficou em ~950–1050 tokens. No agente, cada rodada do loop de function calling reenvia a conversa inteira acumulada (prompt inicial + declaração das 3 ferramentas + toda chamada/resposta anterior). No teste com `CLI-029` (2 rodadas: `historico_cliente` → `operacoes_do_dia` → resposta final), o total chegou a 3629 tokens; com `CLI-014` (1 rodada só), 2053. Quanto mais ferramentas o agente decide chamar, mais caro fica. O cache em disco (ver Trade-offs) evita pagar esse custo de novo ao reprocessar o mesmo cliente, mas não reduz o custo de uma chamada nova.
+- **Possível indício de que a Regra 2 (valor atípico) sinaliza demais.** Na
+  execução em lote da Parte C, os 7 clientes sinalizados *só* pela Regra 2
+  foram *todos* classificados pelo agente como risco baixo. 
+  Não é conclusivo por si só (o agente pode estar errado, ou os dois podem ter razão em contextos diferentes), mas é um padrão forte o bastante para investigar a fundo. Mais detalhes virão na parte D.
 
 ## O que faria com mais tempo
 

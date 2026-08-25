@@ -12,3 +12,5 @@ Pontos em que a IA errou e eu percebi:
 
 ## Nível 2
 - Na Parte A, usei a IA para refatorar a lógica de limpeza/regras do notebook do Nível 1 em `nivel_2/regras.py` (funções reutilizáveis) e escrever `nivel_2/parte_a.py`, que roda o pipeline na base maior, gera os gráficos de análise exploratória e o ranking dos 10 clientes mais sinalizados.
+- Na Parte B, usei a IA para implementar `tools.py` e o loop de function calling manual em `agente.py`. Testei os dois casos reais (fracionamento e valor atípico) e validei que o agente decide sozinho quais ferramentas chamar em cada caso.
+- Na Parte C, pedi para implementar cache em disco (ideia minha, mas sugerida também pelo enunciado). Ao rodar o lote pela primeira vez, o script quebrou no meio por rate limit (429) da camada gratuita. A IA identificou a causa pelo próprio erro da API e implementou retry com backoff sem eu precisar apontar o problema; rodei de novo e completou os 10 clientes.

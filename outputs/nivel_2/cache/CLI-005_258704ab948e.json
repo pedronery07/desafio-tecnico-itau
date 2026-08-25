@@ -1,0 +1,29 @@
+{
+  "cliente_id": "CLI-005",
+  "regras_disparadas": [
+    "valor_atipico"
+  ],
+  "tempo_resposta_s": 34.31,
+  "tokens_total": 2062,
+  "ferramentas_chamadas": [
+    {
+      "ferramenta": "historico_cliente",
+      "args": {
+        "cliente_id": "CLI-005"
+      },
+      "erro": null
+    }
+  ],
+  "texto_bruto": "{\n  \"nivel_risco\": \"baixo\",\n  \"tipologia_suspeita\": \"Valor atípico isolado sem padrão de risco\",\n  \"red_flags\": [\n    \"Sinalização única por valor atípico\"\n  ],\n  \"justificativa\": \"O cliente CLI-005 apresentou apenas uma sinalização por valor atípico, sem qualquer indício de fracionamento ou comportamento reincidente. O histórico geral demonstra um volume total moderado de R$ 64.742,66 distribuído em 11 operações entre março e maio de 2026, com boa diversidade de canais e contrapartes. Dessa forma, a ocorrência pontual não configura, por si só, um indício consistente de lavagem de dinheiro.\"\n}",
+  "parecer": {
+    "nivel_risco": "baixo",
+    "tipologia_suspeita": "Valor atípico isolado sem padrão de risco",
+    "red_flags": [
+      "Sinalização única por valor atípico"
+    ],
+    "justificativa": "O cliente CLI-005 apresentou apenas uma sinalização por valor atípico, sem qualquer indício de fracionamento ou comportamento reincidente. O histórico geral demonstra um volume total moderado de R$ 64.742,66 distribuído em 11 operações entre março e maio de 2026, com boa diversidade de canais e contrapartes. Dessa forma, a ocorrência pontual não configura, por si só, um indício consistente de lavagem de dinheiro."
+  },
+  "valido": true,
+  "erro": null,
+  "cache_hit": false
+}

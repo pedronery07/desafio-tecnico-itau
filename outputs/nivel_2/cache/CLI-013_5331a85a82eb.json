@@ -1,0 +1,29 @@
+{
+  "cliente_id": "CLI-013",
+  "regras_disparadas": [
+    "valor_atipico"
+  ],
+  "tempo_resposta_s": 2.01,
+  "tokens_total": 2048,
+  "ferramentas_chamadas": [
+    {
+      "ferramenta": "historico_cliente",
+      "args": {
+        "cliente_id": "CLI-013"
+      },
+      "erro": null
+    }
+  ],
+  "texto_bruto": "{\n  \"nivel_risco\": \"baixo\",\n  \"tipologia_suspeita\": \"Operação atípica isolada sem padrão de estruturação\",\n  \"red_flags\": [\"Valor atípico detectado em uma única operação\"],\n  \"justificativa\": \"O cliente CLI-013 realizou 10 operações totalizando R$ 81.730,99 entre março e maio de 2026, sem indícios de fracionamento ou estruturação de valores. A sinalização ocorreu exclusivamente devido a um valor atípico isolado, pulverizado entre múltiplos canais e contrapartes distintas, o que mitiga o risco de lavagem de dinheiro.\"\n}",
+  "parecer": {
+    "nivel_risco": "baixo",
+    "tipologia_suspeita": "Operação atípica isolada sem padrão de estruturação",
+    "red_flags": [
+      "Valor atípico detectado em uma única operação"
+    ],
+    "justificativa": "O cliente CLI-013 realizou 10 operações totalizando R$ 81.730,99 entre março e maio de 2026, sem indícios de fracionamento ou estruturação de valores. A sinalização ocorreu exclusivamente devido a um valor atípico isolado, pulverizado entre múltiplos canais e contrapartes distintas, o que mitiga o risco de lavagem de dinheiro."
+  },
+  "valido": true,
+  "erro": null,
+  "cache_hit": false
+}
