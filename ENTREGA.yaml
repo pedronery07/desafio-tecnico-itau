@@ -1,7 +1,7 @@
 candidato: Pedro Nery Affonso Dos Santos
 modelo_usado: gemini-3.5-flash-lite
 provedor: google-ai-studio
-horas_dedicadas: TODO (24/8 14h - 18h30 e 22h - 23h30; 25/8 9h30 - 11h30)
+horas_dedicadas: 8 horas (24/8 14h - 18h30 e 22h - 23h30; 25/8 9h30 - 11h30)
 
 nivel_1:
   limpeza_dados:      {status: completo, onde: "nivel_1/nivel_1.ipynb, secao Limpeza dos dados"}

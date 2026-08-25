@@ -53,7 +53,7 @@
   tempo esperando mais do que o necessário. Mais tarde também apareceu erro
   503 (servidor sobrecarregado) e o retry foi ampliado.
 - **`historico_cliente` expõe a evidência exata de cada regra, não só o
-  booleano.**: o agente não tinha como
+  booleano.** O agente não tinha como
   saber *qual* data investigar em `operacoes_do_dia` para fracionamento, nem
   *quanto* uma operação atípica destoava da mediana — só via
   `sinalizado_regra_*: true/false`. Adicionei `dias_fracionamento` (data,
@@ -116,7 +116,7 @@
   ferramentas dão a ele — "o agente discordou" não significa "o agente tem
   razão" se ele estava trabalhando com informação incompleta ou errada.
 
-#### Dicussão sobre a Parte D
+#### Discussão sobre a Parte D
 
 - Critério de correspondência usado (`nivel_2/confronto.py`): 2 regras
 disparadas → `alto`, 1 regra → `médio`, 0 regras → `baixo` (justificado no
